@@ -16,7 +16,7 @@ SRC_URI[md5sum] = "d38355af73f0352cde3d410b25f34fd0"
 SRC_URI[sha256sum] = "5fd887c407015296a8fd3f4b867fe0fcca3179de97ccde90449853a3dfb802e1"
 
 DEPENDS += "gpgme"
-RDEPENDS_${PN} += "gnupg"
+RDEPENDS:${PN} += "gnupg"
 
 inherit pypi setuptools ptest
 
@@ -24,3 +24,5 @@ do_install_ptest(){
     install ${S}/test_all.py ${D}${PTEST_PATH}
     cp -r ${S}/tests ${D}${PTEST_PATH}
 }
+
+PNBLACKLIST[python-pygpgme] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

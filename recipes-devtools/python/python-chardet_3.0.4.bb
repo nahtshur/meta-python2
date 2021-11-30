@@ -14,18 +14,24 @@ DEPENDS += "${PYTHON_PN}-pytest-runner-native"
 
 PACKAGES =+ "${PN}-cli"
 
-RDEPENDS_${PN}-cli = "${PN} "
+RDEPENDS:${PN}-cli = "${PN} "
 
-FILES_${PN}-cli += " \
+FILES:${PN}-cli += " \
     ${PYTHON_SITEPACKAGES_DIR}/chardet/cli \
 "
 
-RDEPENDS_${PN}_class-target += " \
+RDEPENDS:${PN}:class-target += " \
     ${PYTHON_PN}-logging \
 "
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} += "${PYTHON_PN}-argparse"
+do_install:append() {
+    mv ${D}${bindir}/chardetect ${D}${bindir}/chardetect-py2
+}
+
+RDEPENDS:${PN} += "${PYTHON_PN}-argparse"
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-chardet] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

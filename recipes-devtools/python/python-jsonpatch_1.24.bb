@@ -9,10 +9,12 @@ SRC_URI[sha256sum] = "cbb72f8bf35260628aea6b508a107245f757d1ec839a19c34349985e2c
 inherit pypi setuptools
 
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-jsonpointer \
     ${PYTHON_PN}-netclient \
     ${PYTHON_PN}-re \
     ${PYTHON_PN}-stringold \
 "
+
+PNBLACKLIST[python-jsonpatch] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

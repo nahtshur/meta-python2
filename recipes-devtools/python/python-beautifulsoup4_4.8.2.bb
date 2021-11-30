@@ -13,15 +13,17 @@ SRC_URI[sha256sum] = "05fd825eb01c290877657a56df4c6e4c311b3965bda790c613a3d6fb01
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     ${PYTHON_PN}-html5lib \
     ${PYTHON_PN}-lxml \
     ${PYTHON_PN}-soupsieve \
 "
 
-RDEPENDS_${PN}_append_class-target = "\
+RDEPENDS:${PN}:append:class-target = "\
     ${PYTHON_PN}-html \
     ${PYTHON_PN}-logging \
 "
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-beautifulsoup4] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

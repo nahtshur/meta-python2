@@ -9,7 +9,7 @@ HOMEPAGE = "http://www.pycrypto.org/"
 LICENSE = "PSFv2"
 LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=35f354d199e8cb7667b059a23578e63d"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/python-pycrypto:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/python-pycrypto:"
 
 DEPENDS += " gmp"
 
@@ -34,3 +34,5 @@ do_install() {
 }
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-pycrypto] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

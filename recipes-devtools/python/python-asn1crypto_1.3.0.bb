@@ -15,7 +15,7 @@ PYPI_PACKAGE = "asn1crypto"
 
 inherit pypi setuptools
 
-RDEPENDS_${PN}_class-target += " \
+RDEPENDS:${PN}:class-target += " \
     ${PYTHON_PN}-codecs \
     ${PYTHON_PN}-crypt \
     ${PYTHON_PN}-ctypes \
@@ -28,3 +28,5 @@ RDEPENDS_${PN}_class-target += " \
 "
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-asn1crypto] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

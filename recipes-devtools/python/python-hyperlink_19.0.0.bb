@@ -9,7 +9,7 @@ SRC_URI[md5sum] = "4772fb4d87c26a1ab22a6161424e3cba"
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-idna \
     ${PYTHON_PN}-netclient \
     ${PYTHON_PN}-stringold \
@@ -17,6 +17,8 @@ RDEPENDS_${PN} += "\
 
 PACKAGES =. "${PN}-test "
 
-FILES_${PN}-test += " \
+FILES:${PN}-test += " \
         ${PYTHON_SITEPACKAGES_DIR}/hyperlinkt/test \
 "
+
+PNBLACKLIST[python-hyperlink] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

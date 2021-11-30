@@ -11,9 +11,11 @@ PYPI_SRC_URI = "git://github.com/trentm/which"
 
 S = "${WORKDIR}/git"
 
-do_install_append() {
+do_install:append() {
     rmdir -p --ignore-fail-on-non-empty ${D}${STAGING_BINDIR_NATIVE}
     rmdir -p --ignore-fail-on-non-empty ${D}${datadir}
 }
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-which] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

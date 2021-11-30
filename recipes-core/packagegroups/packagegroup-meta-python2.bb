@@ -7,12 +7,12 @@ PACKAGES = ' \
     packagegroup-meta-python2 \
 '
 
-RDEPENDS_packagegroup-meta-python2 = "\
+RDEPENDS:packagegroup-meta-python2 = "\
     packagegroup-meta-python2-extended \
     packagegroup-meta-python2-connectivity \
 "
 
-RDEPENDS_packagegroup-meta-python2 = "\
+RDEPENDS:packagegroup-meta-python2 = "\
     python-psutil python-certifi python-flask python-pyroute2 python-pyopenssl python-pylint \
     python-semver python-wrapt python-networkx python-behave python-dominate python-flask-user \
     python-attrs python-humanize python-six python-flask-login python-zopeinterface python-sijax \
@@ -64,14 +64,14 @@ RDEPENDS_packagegroup-meta-python2 = "\
     ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "python-systemd", "", d)} \
 "
 
-RDEPENDS_packagegroup-meta-python2-extended = "\
+RDEPENDS:packagegroup-meta-python2-extended = "\
     python-cson \
     python-pyephem \
     python-pyparted \
     python-pywbem \
 "
 
-RDEPENDS_packagegroup-meta-python2-connectivity = "\
+RDEPENDS:packagegroup-meta-python2-connectivity = "\
     python-gsocketpool \
     python-mprpc \
     python-networkmanager \
@@ -82,10 +82,12 @@ RDEPENDS_packagegroup-meta-python2-connectivity = "\
     python-txws \
 "
 
-RDEPENDS_packagegroup-meta-python2-ptest = "\
+RDEPENDS:packagegroup-meta-python2-ptest = "\
     python-booleanpy-ptest \
     python-cryptography-ptest \
     python-pygpgme-ptest \
 "
 
 EXCLUDE_FROM_WORLD = "1"
+
+PNBLACKLIST[packagegroup-meta-python2.bb] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

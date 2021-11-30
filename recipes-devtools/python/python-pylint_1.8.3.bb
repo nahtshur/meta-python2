@@ -10,7 +10,7 @@ inherit pypi setuptools python-dir
 
 DEPENDS += "${PYTHON_PN}-pytest-runner-native"
 
-do_install_append(){
+do_install:append(){
     rm ${D}${bindir}/pylint
     cat >> ${D}${bindir}/pylint <<EOF
 #!/usr/bin/env ${PYTHON_PN}
@@ -22,12 +22,12 @@ EOF
 }
 
 PACKAGES =+ "${PN}-tests"
-FILES_${PN}-tests+= " \
+FILES:${PN}-tests+= " \
     ${PYTHON_SITEPACKAGES_DIR}/pylint/test/ \
     ${PYTHON_SITEPACKAGES_DIR}/pylint/testutils.py \
 "
 
-RDEPENDS_${PN} += "${PYTHON_PN}-astroid \
+RDEPENDS:${PN} += "${PYTHON_PN}-astroid \
                    ${PYTHON_PN}-backports-functools-lru-cache \
                    ${PYTHON_PN}-isort \
                    ${PYTHON_PN}-numbers \
@@ -37,3 +37,5 @@ RDEPENDS_${PN} += "${PYTHON_PN}-astroid \
                    ${PYTHON_PN}-difflib \
                    ${PYTHON_PN}-netserver \
                   "
+
+PNBLACKLIST[python-pylint] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

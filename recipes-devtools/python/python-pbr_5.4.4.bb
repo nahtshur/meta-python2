@@ -10,12 +10,14 @@ SRC_URI[sha256sum] = "139d2625547dbfa5fb0b81daebb39601c478c21956dc57e2e07b74450a
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} += "${PYTHON_PN}-pip"
+RDEPENDS:${PN} += "${PYTHON_PN}-pip"
 
-do_install_append() {
+do_install:append() {
         if [ -f ${D}${bindir}/pbr ]; then
                 mv ${D}${bindir}/pbr ${D}${bindir}/pbr-2
         fi
 }
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-pbr] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

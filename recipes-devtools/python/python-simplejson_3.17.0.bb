@@ -9,7 +9,7 @@ SRC_URI[sha256sum] = "2b4b2b738b3b99819a17feaf118265d0753d5536049ea570b3c43b51c4
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-io \
     ${PYTHON_PN}-netserver \
     ${PYTHON_PN}-numbers \
@@ -17,10 +17,12 @@ RDEPENDS_${PN} += "\
 "
 
 PACKAGES =+ "${PN}-tests"
-RDEPENDS_${PN}-tests = "${PN} ${PYTHON_PN}-unittest"
-FILES_${PN}-tests+= " \
+RDEPENDS:${PN}-tests = "${PN} ${PYTHON_PN}-unittest"
+FILES:${PN}-tests+= " \
     ${PYTHON_SITEPACKAGES_DIR}/simplejson/tests \
     ${PYTHON_SITEPACKAGES_DIR}/simplejson/tool.py* \
 "
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-simplejson] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

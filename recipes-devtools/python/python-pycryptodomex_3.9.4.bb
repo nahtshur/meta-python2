@@ -10,20 +10,22 @@ SRC_URI[sha256sum] = "22d970cee5c096b9123415e183ae03702b2cd4d3ba3f0ced25c4e1aba3
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-io \
     ${PYTHON_PN}-math \
 "
 
-RDEPENDS_${PN}-tests += " \
+RDEPENDS:${PN}-tests += " \
     ${PYTHON_PN}-unittest \
 "
 
 PACKAGES =+ "${PN}-tests"
 
-FILES_${PN}-tests += " \
+FILES:${PN}-tests += " \
     ${PYTHON_SITEPACKAGES_DIR}/Crypto/SelfTest/ \
     ${PYTHON_SITEPACKAGES_DIR}/Crypto/SelfTest/__pycache__/ \
 "
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-pycryptodomex] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

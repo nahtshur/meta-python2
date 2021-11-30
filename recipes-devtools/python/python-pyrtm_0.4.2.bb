@@ -12,28 +12,30 @@ inherit pypi setuptools
 
 PACKAGES =+ "${PN}-tests ${PN}-samples"
 
-FILES_${PN}-samples += " \
+FILES:${PN}-samples += " \
     ${PYTHON_SITEPACKAGES_DIR}/rtm/samples \
 "
 
-FILES_${PN}-tests += " \
+FILES:${PN}-tests += " \
     ${PYTHON_SITEPACKAGES_DIR}/rtm/tests \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-logging \
     ${PYTHON_PN}-netclient \
 "
 
-RDEPENDS_${PN}-samples += " \
+RDEPENDS:${PN}-samples += " \
     ${PN} \
 "
 
-RDEPENDS_${PN}-tests += " \
+RDEPENDS:${PN}-tests += " \
     ${PN} \
     ${PYTHON_PN}-unittest \
 "
 
 # meta-python recipe did not follow Debian naming
 PROVIDES += "pyrtm"
+
+PNBLACKLIST[python-pyrtm] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

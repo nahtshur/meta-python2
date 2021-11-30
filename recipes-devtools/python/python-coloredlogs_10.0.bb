@@ -17,16 +17,18 @@ SRC_URI[sha256sum] = "b869a2dda3fa88154b9dd850e27828d8755bfab5a838a1c97fbc850c6e
 
 inherit pypi setuptools
 
-do_compile_prepend() {
+do_compile:prepend() {
     sed -ie "s/find_pth_directory(),/'',/g" ${S}/setup.py
 }
 
-do_install_append() {
+do_install:append() {
     rm -rf ${D}${datadir}
 }
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-humanfriendly \
 "
 
 BBCLASSEXTEND = "native"
+
+PNBLACKLIST[python-coloredlogs] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

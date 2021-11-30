@@ -11,7 +11,7 @@ PYPI_PACKAGE = "sh"
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-codecs \
     ${PYTHON_PN}-contextlib \
     ${PYTHON_PN}-core \
@@ -35,3 +35,5 @@ RDEPENDS_${PN} += " \
 #    signal - part of core in python3. not sure how it is imported in python2.
 #             No complants in compiling.
 
+
+PNBLACKLIST[python-sh] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

@@ -13,7 +13,7 @@ SRC_URI[sha256sum] = "e0857375f63e9041e03fedd5b7541f97cf78917ac1b6b06c1fcc9b4537
 PYPI_PACKAGE = "Whoosh"
 PYPI_PACKAGE_EXT = "zip"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-email \
     ${PYTHON_PN}-multiprocessing \
     ${PYTHON_PN}-netclient \
@@ -25,3 +25,5 @@ RDEPENDS_${PN} += " \
 "
 inherit pypi setuptools
 
+
+PNBLACKLIST[python-whoosh] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

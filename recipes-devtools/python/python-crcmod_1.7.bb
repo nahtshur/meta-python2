@@ -16,6 +16,8 @@ SRC_URI[sha256sum] = "dc7051a0db5f2bd48665a990d3ec1cc305a466a77358ca4492826f41f2
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} += "${PYTHON_PN}-unittest"
+RDEPENDS:${PN} += "${PYTHON_PN}-unittest"
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-crcmod] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

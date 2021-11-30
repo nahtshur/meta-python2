@@ -10,6 +10,8 @@ SRC_URI[sha256sum] = "77f1aef9410698d20eaeac5b73a87817365f457a507d82edf292e12cbb
 PYPI_PACKAGE = "amqp"
 inherit setuptools pypi
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
 	python-vine \
 	"
+
+PNBLACKLIST[python-amqp] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

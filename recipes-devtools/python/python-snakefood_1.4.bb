@@ -43,9 +43,11 @@ SRC_URI[sha256sum] = "295784668032254e7391ca99ba7060edd3ae4eca1a330ac11627b18ab5
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} = " python-logging python-compiler python-shell"
+RDEPENDS:${PN} = " python-logging python-compiler python-shell"
 # the above modules do not have a -native counterpart
-RDEPENDS_${PN}_class-native = ""
+RDEPENDS:${PN}:class-native = ""
 
 BBCLASSEXTEND = "native"
 
+
+PNBLACKLIST[python-snakefood] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

@@ -21,7 +21,7 @@ SRC_URI[sha256sum] = "eff69ddbf3ad86375c344339371168640951c302450c5d3e9936e98d64
 
 DEPENDS += "libxml2 libxslt"
 
-inherit pypi setuptools
+inherit pypi setuptools pkgconfig
 
 # add to the defaults which are set in the setuptools bbclass
 #
@@ -37,16 +37,18 @@ DISTUTILS_INSTALL_ARGS += " \
 
 # {standard input}: Assembler messages:
 # {standard input}:1488805: Error: branch out of range
-DEBUG_OPTIMIZATION_remove_mips = " -Og"
-DEBUG_OPTIMIZATION_append_mips = " -O"
-BUILD_OPTIMIZATION_remove_mips = " -Og"
-BUILD_OPTIMIZATION_append_mips = " -O"
+DEBUG_OPTIMIZATION:remove:mips = " -Og"
+DEBUG_OPTIMIZATION:append:mips = " -O"
+BUILD_OPTIMIZATION:remove:mips = " -Og"
+BUILD_OPTIMIZATION:append:mips = " -O"
 
-DEBUG_OPTIMIZATION_remove_mipsel = " -Og"
-DEBUG_OPTIMIZATION_append_mipsel = " -O"
-BUILD_OPTIMIZATION_remove_mipsel = " -Og"
-BUILD_OPTIMIZATION_append_mipsel = " -O"
+DEBUG_OPTIMIZATION:remove:mipsel = " -Og"
+DEBUG_OPTIMIZATION:append:mipsel = " -O"
+BUILD_OPTIMIZATION:remove:mipsel = " -Og"
+BUILD_OPTIMIZATION:append:mipsel = " -O"
 
-RDEPENDS_${PN} += "libxml2 libxslt ${PYTHON_PN}-compression"
+RDEPENDS:${PN} += "libxml2 libxslt ${PYTHON_PN}-compression"
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-lxml] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

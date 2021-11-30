@@ -15,8 +15,10 @@ inherit pypi setuptools
 
 PYPI_PACKAGE = "pika"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-logging \
     ${PYTHON_PN}-tornado \
     ${PYTHON_PN}-twisted \
 "
+
+PNBLACKLIST[python-pika] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

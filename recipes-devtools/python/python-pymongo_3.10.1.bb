@@ -15,9 +15,9 @@ inherit pypi setuptools
 
 PACKAGES =+ "${PYTHON_PN}-bson"
 
-FILES_${PYTHON_PN}-bson = "${PYTHON_SITEPACKAGES_DIR}/bson/*"
+FILES:${PYTHON_PN}-bson = "${PYTHON_SITEPACKAGES_DIR}/bson/*"
 
-RDEPENDS_${PYTHON_PN}-bson += " \
+RDEPENDS:${PYTHON_PN}-bson += " \
      ${PYTHON_PN}-datetime \
      ${PYTHON_PN}-json \
      ${PYTHON_PN}-netclient \
@@ -25,7 +25,9 @@ RDEPENDS_${PYTHON_PN}-bson += " \
      ${PYTHON_PN}-threading \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-bson \
     ${PYTHON_PN}-pprint \
 "
+
+PNBLACKLIST[python-pymongo] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

@@ -23,7 +23,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:"
 
 inherit native
 
-EXTRA_OECONF_append = " --bindir=${bindir}/${PN} --with-system-expat=${STAGING_DIR_HOST}"
+EXTRA_OECONF:append = " --bindir=${bindir}/${PN} --with-system-expat=${STAGING_DIR_HOST}"
 
 EXTRA_OEMAKE = '\
   LIBC="" \
@@ -31,12 +31,12 @@ EXTRA_OEMAKE = '\
   STAGING_INCDIR=${STAGING_INCDIR_NATIVE} \
 '
 
-do_configure_append() {
+do_configure:append() {
 	autoreconf --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
 }
 
 # Cross-compiling Python needs a native pgen, build it here for use later.
-do_compile_append() {
+do_compile:append() {
 	oe_runmake Parser/pgen
 }
 
@@ -73,7 +73,7 @@ python(){
         manifest_str = manifest_file.read()
         python_manifest = json.loads(manifest_str)
 
-    rprovides = d.getVar('RPROVIDES').split()
+    rprovides = (d.getVar('RPROVIDES') or "").split()
 
     # Hardcoded since it cant be python-native-foo, should be python-foo-native
     pn = 'python'

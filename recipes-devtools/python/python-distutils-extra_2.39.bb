@@ -12,8 +12,10 @@ SRC_URI[sha256sum] = "723f24f4d65fc8d99b33a002fbbb3771d4cc9d664c97085bf37f3997ae
 
 inherit setuptools
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     python-distutils \
 "
 
 BBCLASSEXTEND = "native"
+
+PNBLACKLIST[python-distutils-extra] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

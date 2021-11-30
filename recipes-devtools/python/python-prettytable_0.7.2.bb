@@ -15,7 +15,7 @@ inherit setuptools
 
 S = "${WORKDIR}/${SRCNAME}-${PV}"
 
-do_install_append() {
+do_install:append() {
     perm_files=`find "${D}${PYTHON_SITEPACKAGES_DIR}/" -name "*.txt" -o -name "PKG-INFO"`
     for f in $perm_files; do
         chmod 644 "${f}"
@@ -27,3 +27,5 @@ UPSTREAM_CHECK_REGEX = "/PrettyTable/(?P<pver>(\d+[\.\-_]*)+)"
 
 BBCLASSEXTEND = "native nativesdk"
 
+
+PNBLACKLIST[python-prettytable] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

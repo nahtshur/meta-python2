@@ -9,10 +9,12 @@ PYPI_PACKAGE = "Pyro4"
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-logging \
     ${PYTHON_PN}-selectors34 \
     ${PYTHON_PN}-serpent \
     ${PYTHON_PN}-threading \
     ${PYTHON_PN}-zlib \
     "
+
+PNBLACKLIST[python-pyro4] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

@@ -10,12 +10,14 @@ S = "${WORKDIR}/gdata.py-${PV}"
 
 inherit pypi distutils
 
-FILES_${PN} += "${datadir}"
+FILES:${PN} += "${datadir}"
 
-RDEPENDS_${PN} = " \
+RDEPENDS:${PN} = " \
     ${PYTHON_PN}-distutils \
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-netserver \
     ${PYTHON_PN}-stringold \
     ${PYTHON_PN}-xml \
 "
+
+PNBLACKLIST[python-gdata] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

@@ -22,7 +22,7 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
 
 UNKNOWN_CONFIGURE_WHITELIST = "introspection"
 
-EXTRA_OEMESON_append = " -Dpython=python2"
+EXTRA_OEMESON:append = " -Dpython=python2"
 
 PACKAGECONFIG ??= "stagedir"
 
@@ -31,10 +31,12 @@ PACKAGECONFIG[tests] = "-Dtests=true, -Dtests=false, , "
 PACKAGECONFIG[stagedir] = "-Dstagedir=${PYTHON_SITEPACKAGES_DIR}, -Dstagedir="", , "
 
 BBCLASSEXTEND = "native"
-RDEPENDS_${PN} = "python-io python-pkgutil"
-RDEPENDS_${PN}_class-native = ""
+RDEPENDS:${PN} = "python-io python-pkgutil"
+RDEPENDS:${PN}:class-native = ""
 
-do_install_append() {
+do_install:append() {
     # Remove files that clash with python3-pygobject; their content is same
     rm -r ${D}${includedir}/pygobject-3.0/pygobject.h ${D}${libdir}/pkgconfig
 }
+
+PNBLACKLIST[python-pygobject] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

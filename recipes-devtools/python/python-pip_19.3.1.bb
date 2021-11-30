@@ -9,6 +9,8 @@ SRC_URI[sha256sum] = "21207d76c1031e517668898a6b46a9fb1501c7a4710ef5dfd6a40ad9e6
 inherit pypi setuptools
 
 # Since PIP is like CPAN for PERL we need to drag in all python modules to ensure everything works
-RDEPENDS_${PN}_class-target = "python-modules python-distribute python-misc"
+RDEPENDS:${PN}:class-target = "python-modules python-distribute python-misc"
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-pip] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

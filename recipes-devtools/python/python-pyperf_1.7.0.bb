@@ -23,7 +23,7 @@ PYPI_PACKAGE = "pyperf"
 
 DEPENDS += "${PYTHON_PN}-six-native"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-contextlib \
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-fcntl \
@@ -32,3 +32,5 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-six \
     ${PYTHON_PN}-statistics \
 "
+
+PNBLACKLIST[python-pyperf] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

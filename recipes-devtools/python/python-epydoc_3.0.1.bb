@@ -8,7 +8,7 @@ SRC_URI[sha256sum] = "d4e5c8d90937d01b05170f592c1fa9b29e9ed0498dfe7f0eb2a3af6172
 
 inherit pypi distutils
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-codecs \
     ${PYTHON_PN}-pickle \
     ${PYTHON_PN}-stringold \
@@ -17,3 +17,5 @@ RDEPENDS_${PN} += "\
     "
 
 BBCLASSEXTEND = "native"
+
+PNBLACKLIST[python-epydoc] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

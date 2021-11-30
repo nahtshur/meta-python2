@@ -34,13 +34,13 @@ DEPENDS += " \
 "
 
 
-do_install_append() {
+do_install:append() {
     mv ${D}${bindir}/wbemcli.py ${D}${bindir}/pywbemcli
 
     rm -f ${D}${bindir}/*.bat
 }
 
-RDEPENDS_${PN}_class-target += "\
+RDEPENDS:${PN}:class-target += "\
     ${PYTHON_PN}-argparse \
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-io \
@@ -58,7 +58,7 @@ RDEPENDS_${PN}_class-target += "\
     ${PYTHON_PN}-xml \
 "
 
-ALTERNATIVE_${PN} = "mof_compiler pywbemcli wbemcli"
+ALTERNATIVE:${PN} = "mof_compiler pywbemcli wbemcli"
 ALTERNATIVE_TARGET[mof_compiler] = "${bindir}/mof_compiler"
 ALTERNATIVE_TARGET[pywbemcli] = "${bindir}/pywbemcli"
 ALTERNATIVE_TARGET[wbemcli] = "${bindir}/wbemcli"
@@ -66,3 +66,5 @@ ALTERNATIVE_TARGET[wbemcli] = "${bindir}/wbemcli"
 ALTERNATIVE_PRIORITY = "30"
 
 BBCLASSEXTEND = "native"
+
+PNBLACKLIST[python-pywbem] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

@@ -10,9 +10,11 @@ SRC_URI[sha256sum] = "aef1e34d98d7bec7cc368e0ca0f2e97493f9b5ebe6d7103f8f6460cfca
 PYPI_PACKAGE = "python-networkmanager"
 inherit pypi setuptools
 
-RDEPENDS_${PN} = "networkmanager python-dbus python-six"
+RDEPENDS:${PN} = "networkmanager python-dbus python-six"
 
 python() {
     if 'networking-layer' not in d.getVar('BBFILE_COLLECTIONS').split():
         raise bb.parse.SkipRecipe('Requires networking-layer to be present to provide networkmanager.')
 }
+
+PNBLACKLIST[python-networkmanager] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

@@ -20,7 +20,7 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
 SRC_URI[md5sum] = "28ae5f93853466c44ec96706ba2a1eb4"
 SRC_URI[sha256sum] = "c726c086f0dd93a0ac7a0176f383a12af91b6657b78a301e3f5b25d9f8d4d10b"
 
-do_compile_prepend() {
+do_compile:prepend() {
     sed -e 's/@VERSION@/${PV}/g' ${S}/setup.py.in > ${S}/setup.py
 }
 
@@ -28,7 +28,7 @@ do_compile_prepend() {
 # python-native/python: can't open file 'setup.py': [Errno 2] No such file or directory
 CLEANBROKEN = "1"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-dbus \
     ${PYTHON_PN}-decorator \
     ${PYTHON_PN}-pygobject \
@@ -36,3 +36,5 @@ RDEPENDS_${PN} += "\
     "
 
 inherit setuptools
+
+PNBLACKLIST[python-slip-dbus] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

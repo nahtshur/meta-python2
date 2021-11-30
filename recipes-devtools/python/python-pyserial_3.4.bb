@@ -9,17 +9,17 @@ inherit pypi setuptools
 
 PACKAGES =+ "${PN}-java ${PN}-osx ${PN}-win32 ${PN}-tools"
 
-FILES_${PN}-java = " \
+FILES:${PN}-java = " \
     ${PYTHON_SITEPACKAGES_DIR}/serial/*java* \
     ${PYTHON_SITEPACKAGES_DIR}/serial/__pycache__/*java* \
 "
 
-FILES_${PN}-osx = " \
+FILES:${PN}-osx = " \
     ${PYTHON_SITEPACKAGES_DIR}/serial/tools/*osx* \
     ${PYTHON_SITEPACKAGES_DIR}/serial/tools/__pycache__/*osx* \
 "
 
-FILES_${PN}-win32 = " \
+FILES:${PN}-win32 = " \
     ${PYTHON_SITEPACKAGES_DIR}/serial/*serialcli* \
     ${PYTHON_SITEPACKAGES_DIR}/serial/__pycache__/*serialcli* \
     ${PYTHON_SITEPACKAGES_DIR}/serial/*win32* \
@@ -30,7 +30,7 @@ FILES_${PN}-win32 = " \
     ${PYTHON_SITEPACKAGES_DIR}/serial/tools/__pycache__/*windows* \
 "
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     ${PYTHON_PN}-argparse \
     ${PYTHON_PN}-fcntl \
     ${PYTHON_PN}-io \
@@ -43,3 +43,5 @@ RDEPENDS_${PN} = "\
 "
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-pyserial] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

@@ -15,9 +15,11 @@ PYPI_PACKAGE = "Flask"
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     ${PYTHON_PN}-click \
     ${PYTHON_PN}-itsdangerous \
     ${PYTHON_PN}-jinja2 \
     ${PYTHON_PN}-werkzeug \
     "
+
+PNBLACKLIST[python-flask] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

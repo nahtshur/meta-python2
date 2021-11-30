@@ -13,15 +13,17 @@ SRC_URI[sha256sum] = "594ea0a9e150052232425009eac6dd104a80f494d0e273cc48dd114d7e
 
 inherit pypi setuptools
 
-RDEPENDS_${PN}_append_class-target = " \
+RDEPENDS:${PN}:append:class-target = " \
     ${PYTHON_PN}-dateutil \
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-jsonschema \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-cachetools \
     ${PYTHON_PN}-deprecated \
     ${PYTHON_PN}-requests \
     ${PYTHON_PN}-six \
 "
+
+PNBLACKLIST[python-pymisp] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

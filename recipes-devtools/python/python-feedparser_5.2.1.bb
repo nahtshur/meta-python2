@@ -7,7 +7,7 @@ SRC_URI[sha256sum] = "bd030652c2d08532c034c27fcd7c85868e7fa3cb2b17f230a44a6bbc92
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-codecs \
     ${PYTHON_PN}-email \
     ${PYTHON_PN}-html \
@@ -15,3 +15,5 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-stringold \
     "
 
+
+PNBLACKLIST[python-feedparser] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

@@ -8,13 +8,15 @@ SRC_URI[sha256sum] = "c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e
 
 inherit pypi setuptools
 
-RDEPENDS_${PN}_class-target = "\
+RDEPENDS:${PN}:class-target = "\
     ${PYTHON_PN}-codecs \
 "
 
 # Remove bundled egg-info
-do_compile_prepend() {
+do_compile:prepend() {
     rm -rf ${S}/idna.egg-info
 }
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-idna] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

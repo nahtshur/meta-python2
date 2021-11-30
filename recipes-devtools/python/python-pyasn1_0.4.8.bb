@@ -9,7 +9,7 @@ SRC_URI[sha256sum] = "aef77c9fb94a3ac588e87841208bdec464471d9871bd5050a287cc9a47
 
 inherit pypi setuptools
 
-RDEPENDS_${PN}_class-target += " \
+RDEPENDS:${PN}:class-target += " \
     ${PYTHON_PN}-codecs \
     ${PYTHON_PN}-lang \
     ${PYTHON_PN}-logging \
@@ -18,3 +18,5 @@ RDEPENDS_${PN}_class-target += " \
 "
 
 BBCLASSEXTEND = "native nativesdk"
+
+PNBLACKLIST[python-pyasn1] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"

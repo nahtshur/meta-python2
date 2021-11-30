@@ -13,9 +13,9 @@ SRC_URI[sha256sum] = "1eb7fa3b9bd9174dfe9c3b59b7a09b768ecd496debfc4976a9530a3e15
 
 DEPENDS += "libevent ${PYTHON_PN}-greenlet"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/python-gevent:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/python-gevent:"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://libev-conf.patch;patch=1;pnum=1 \
     file://0002-setup.py-do-not-query-for-include-dir.patch \
 "
@@ -23,7 +23,7 @@ SRC_URI_append = " \
 
 inherit pypi setuptools
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     ${PYTHON_PN}-greenlet \
     ${PYTHON_PN}-mime \
     ${PYTHON_PN}-pprint \
@@ -33,8 +33,10 @@ RDEPENDS_${PN} = "\
 # The python-gevent has no autoreconf ability
 # and the logic for detecting a cross compile is flawed
 # so always force a cross compile
-do_configure_append() {
+do_configure:append() {
 	sed -i -e 's/^cross_compiling=no/cross_compiling=yes/' ${S}/deps/libev/configure
 	sed -i -e 's/^cross_compiling=no/cross_compiling=yes/' ${S}/deps/c-ares/configure
 }
 
+
+PNBLACKLIST[python-gevent] ?= "${@bb.utils.contains('I_SWEAR_TO_MIGRATE_TO_PYTHON3', 'yes', '', 'python2 is out of support for long time, read https://www.python.org/doc/sunset-python-2/ https://python3statement.org/ and if you really have to temporarily use this, then set I_SWEAR_TO_MIGRATE_TO_PYTHON3 to "yes"', d)}"
